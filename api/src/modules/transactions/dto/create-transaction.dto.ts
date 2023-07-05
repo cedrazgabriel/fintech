@@ -1,32 +1,39 @@
-import { IsDateString, IsEnum, IsNotEmpty, IsNumber, IsPositive, IsString, IsUUID } from "class-validator";
-import { TransactionType } from "../entities/Transaction";
+import {
+  IsDateString,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsPositive,
+  IsString,
+  IsUUID,
+} from 'class-validator';
+import { TransactionType } from '../entities/Transaction';
 
 export class CreateTransactionDto {
+  @IsNotEmpty()
+  @IsString()
+  @IsUUID()
+  bankAccountId: string;
 
-    @IsNotEmpty()
-    @IsString()
-    @IsUUID()
-    bankAccountId:string
+  @IsNotEmpty()
+  @IsString()
+  @IsUUID()
+  categoryId: string;
 
-    @IsNotEmpty()
-    @IsString()
-    @IsUUID()
-    categoryId: string
+  @IsNotEmpty()
+  @IsString()
+  name: string;
 
-    @IsNotEmpty()
-    @IsString()
-    name:string
+  @IsNotEmpty()
+  @IsNumber()
+  @IsPositive()
+  value: number;
 
-    @IsNotEmpty()
-    @IsNumber()
-    @IsPositive()
-    value: number
+  @IsNotEmpty()
+  @IsDateString()
+  date: string;
 
-    @IsNotEmpty()
-    @IsDateString()
-    date: string
-
-    @IsNotEmpty()
-    @IsEnum(TransactionType)
-    type: TransactionType
+  @IsNotEmpty()
+  @IsEnum(TransactionType)
+  type: TransactionType;
 }

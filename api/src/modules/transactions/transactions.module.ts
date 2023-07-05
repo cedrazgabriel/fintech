@@ -8,6 +8,6 @@ import { ValidateTransactionOwnershipService } from './services/validation-trans
 @Module({
   imports: [BankAccountsModule, CategoriesModule],
   controllers: [TransactionsController],
-  providers: [TransactionsService, ValidateTransactionOwnershipService]
+  providers: [TransactionsService, ValidateTransactionOwnershipService],
 })
 export class TransactionsModule {}

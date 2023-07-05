@@ -1,5 +1,5 @@
 export enum BankAccountType {
-    CHECKING = 'CHECKING',
-    INVESTIMENT = 'INVESTIMENT',
-    CASH = 'CASH',
+  CHECKING = 'CHECKING',
+  INVESTIMENT = 'INVESTIMENT',
+  CASH = 'CASH',
 }
