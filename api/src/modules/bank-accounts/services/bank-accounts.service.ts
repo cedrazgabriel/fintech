@@ -1,29 +1,30 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateBankAccountDto } from '../dto/create-bank-account.dto';
 import { UpdateBankAccountDto } from '../dto/update-bank-account.dto';
 import { BankAccountsRepository } from 'src/shared/database/repositories/bank-accounts.repositories';
 import { ValidadeBankAccountOwnershipService } from './validation-bank-account-ownership.service';
 @Injectable()
 export class BankAccountsService {
-  constructor(private readonly bankAccountsRepo : BankAccountsRepository,
-     private readonly validateBankAccountOwnershipService : ValidadeBankAccountOwnershipService
-     ){}
+  constructor(
+    private readonly bankAccountsRepo: BankAccountsRepository,
+    private readonly validateBankAccountOwnershipService: ValidadeBankAccountOwnershipService,
+  ) {}
 
   create(userId: string, createBankAccountDto: CreateBankAccountDto) {
-    const {color, initialBalance, name, type} = createBankAccountDto
+    const { color, initialBalance, name, type } = createBankAccountDto;
 
     return this.bankAccountsRepo.create({
-      data:{     
+      data: {
         userId,
         color,
         initialBalance,
         name,
-        type
-      }
+        type,
+      },
     });
   }
 
-  async findAllByUserId(userId : string) {
+  async findAllByUserId(userId: string) {
     const bankAccounts = await this.bankAccountsRepo.findyMany({
       where: { userId },
       include: {
@@ -33,53 +34,60 @@ export class BankAccountsService {
             value: true,
           },
         },
-       }   
+      },
     });
 
-    return bankAccounts.map(({transactions,...bankAccount}) => {   
-      const totalTransactions = transactions.reduce((acc, transaction) => (
-        acc +
-        (transaction.type === 'INCOME'
-        ? transaction.value
-        : -transaction.value)
-      ), 0)
+    return bankAccounts.map(({ transactions, ...bankAccount }) => {
+      const totalTransactions = transactions.reduce(
+        (acc, transaction) =>
+          acc +
+          (transaction.type === 'INCOME'
+            ? transaction.value
+            : -transaction.value),
+        0,
+      );
 
-      const currentBalance = bankAccount.initialBalance + totalTransactions
+      const currentBalance = bankAccount.initialBalance + totalTransactions;
 
       return {
         ...bankAccount,
-        currentBalance
-      }
+        currentBalance,
+      };
     });
   }
 
   async update(
     userId: string,
     bankAccountId: string,
-    updateBankAccountDto: UpdateBankAccountDto
-    ) {
-      await this.validateBankAccountOwnershipService.validate(userId, bankAccountId)
-  
-      const {color, initialBalance, name, type} = updateBankAccountDto
+    updateBankAccountDto: UpdateBankAccountDto,
+  ) {
+    await this.validateBankAccountOwnershipService.validate(
+      userId,
+      bankAccountId,
+    );
+
+    const { color, initialBalance, name, type } = updateBankAccountDto;
 
     return this.bankAccountsRepo.update({
-      where: {id: bankAccountId},
+      where: { id: bankAccountId },
       data: {
         color,
         initialBalance,
         name,
-        type
-          }
-    })
+        type,
+      },
+    });
   }
 
-  async remove(userId: string, bankAccountId : string) {
+  async remove(userId: string, bankAccountId: string) {
+    await this.validateBankAccountOwnershipService.validate(
+      userId,
+      bankAccountId,
+    );
 
-    await this.validateBankAccountOwnershipService.validate(userId, bankAccountId)
-  
     await this.bankAccountsRepo.delete({
-      where: { id: bankAccountId }
-    })
+      where: { id: bankAccountId },
+    });
 
     return null;
   }

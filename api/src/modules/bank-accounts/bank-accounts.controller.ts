@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, ParseUUIDPipe, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+  ParseUUIDPipe,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { BankAccountsService } from './services/bank-accounts.service';
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
 import { UpdateBankAccountDto } from './dto/update-bank-account.dto';
@@ -10,36 +21,36 @@ export class BankAccountsController {
 
   @Post()
   create(
-    @ActiveUserId() userId : string,
-    @Body() createBankAccountDto: CreateBankAccountDto
-   ) {
-    return this.bankAccountsService.create(userId,createBankAccountDto);
+    @ActiveUserId() userId: string,
+    @Body() createBankAccountDto: CreateBankAccountDto,
+  ) {
+    return this.bankAccountsService.create(userId, createBankAccountDto);
   }
 
   @Get()
-  findAllByUserId(@ActiveUserId() userId : string) {
+  findAllByUserId(@ActiveUserId() userId: string) {
     return this.bankAccountsService.findAllByUserId(userId);
   }
 
   @Put(':bankAccountId')
   update(
-    @ActiveUserId() userId : string,
+    @ActiveUserId() userId: string,
     @Param('bankAccountId', ParseUUIDPipe) bankAccountId: string,
-    @Body() updateBankAccountDto: UpdateBankAccountDto
-    ) {
+    @Body() updateBankAccountDto: UpdateBankAccountDto,
+  ) {
     return this.bankAccountsService.update(
       userId,
       bankAccountId,
-      updateBankAccountDto
-       );
+      updateBankAccountDto,
+    );
   }
 
   @Delete(':bankAccountId')
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(
-    @ActiveUserId() userId : string,
-    @Param('bankAccountId', ParseUUIDPipe) bankAccountId: string
-    ) {
-    return this.bankAccountsService.remove(userId,bankAccountId);
+    @ActiveUserId() userId: string,
+    @Param('bankAccountId', ParseUUIDPipe) bankAccountId: string,
+  ) {
+    return this.bankAccountsService.remove(userId, bankAccountId);
   }
 }

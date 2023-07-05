@@ -6,6 +6,6 @@ import { ValidadeBankAccountOwnershipService } from './services/validation-bank-
 @Module({
   controllers: [BankAccountsController],
   providers: [BankAccountsService, ValidadeBankAccountOwnershipService],
-  exports: [ValidadeBankAccountOwnershipService]
+  exports: [ValidadeBankAccountOwnershipService],
 })
 export class BankAccountsModule {}
