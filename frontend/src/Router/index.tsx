@@ -1,24 +1,11 @@
-import { Routes, Route, BrowserRouter, Outlet, Navigate} from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { AuthLayout } from '../view/layouts/AuthLayout';
+import { Dashboard } from '../view/pages/Dashboard';
+import { Login } from '../view/pages/Login';
+import { Register } from '../view/pages/Register';
+import { AuthGuard } from './AuthGuard';
 
-interface AuthGuardProps {
-    isPrivate: boolean;
-}
-function AuthGuard({isPrivate}: AuthGuardProps) {
-    const signedIn = false;
-
-    if (!signedIn && isPrivate) {
-       //Redirecionar para /login
-       return <Navigate to="/login" replace />
-
-    }
-
-    if (signedIn && !isPrivate) {
-        //Redirecionar para /dashboard
-        return <Navigate to="/" replace />
-    }
-
- return <Outlet />
-}
+// Esse arquivo serve para direcionar as rotas da aplicação, validando as rotas privadas e rotas públicas
 export function Router(){
    
     return(
@@ -26,12 +13,14 @@ export function Router(){
         <Routes>
 
             <Route element={ <AuthGuard isPrivate={false} /> }>
-                <Route path="/login" element={<h1>Login</h1>} />
-                <Route path="/register" element={<h1>Register</h1>} />
+                <Route element={<AuthLayout/>}>
+                    <Route path="/login" element={<Login/>} />
+                    <Route path="/register" element={<Register/>} />
+                </Route>       
             </Route>
 
            <Route element={ <AuthGuard isPrivate={true} /> }>
-            <Route path="/" element={<h1>Dashboard</h1>} />
+            <Route path="/" element={<Dashboard/>} />
             </Route>
            
 
