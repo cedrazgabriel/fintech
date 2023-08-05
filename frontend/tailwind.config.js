@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         gray: {
+          0: '#F8F9FA',
           50: '#F8F9FA',
           100: '#F1F3F5',
           200: '#E9ECEF',
