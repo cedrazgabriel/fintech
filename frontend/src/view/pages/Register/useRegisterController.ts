@@ -7,6 +7,7 @@ import { z } from "zod";
 
 import { authService } from '../../../app/services/authService';
 import { SignupParams } from '../../../app/services/authService/signup';
+import { useAuth } from '../../../app/hooks/useAuth';
 
 
 const schema = z.object({
@@ -38,11 +39,15 @@ export function useRegisterController(){
             return authService.signup(data)
         },
     })
+
+    const {signin} = useAuth()
+
     const handleSubmit = hookFormSubmit(async (data) => {
      
         try{
             const { acessTokenJWT } =  await mutateAsync(data)
-            toast.success(acessTokenJWT)
+            
+            signin(acessTokenJWT)
         }
         catch{
             toast.error('Ocorreu um erro ao criar a sua conta!')
