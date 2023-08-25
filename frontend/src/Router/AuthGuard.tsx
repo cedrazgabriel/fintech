@@ -20,5 +20,5 @@ import { useAuth } from "../app/hooks/useAuth";
         return <Navigate to="/" replace />
     }
 
- return <Outlet />
+    return <Outlet />
 }
