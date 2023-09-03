@@ -9,8 +9,6 @@ function DropdownMenuRoot({ children } : {children : React.ReactNode}){
  )
 }
 
-
-
 function DropdownMenuTrigger({ children } : {children : React.ReactNode}){
     return (
        <RdxDropdownMenu.Trigger className='outline-none'>
@@ -28,8 +26,12 @@ function DropdownMenuContent({ children, className } : DropdownMenuContentProps)
     return (
       <RdxDropdownMenu.Portal>
         <RdxDropdownMenu.Content
-        className={cn('rounded-2xl p-2 bg-white space-y-2 shadow-[0px_11px_20px_0px_rgba(0,0,0,0.30)] data-[side=bottom]:animate-slipe-up-and-fade',
-                   className)}>
+        className={cn(
+                    'rounded-2xl p-2 bg-white space-y-2 shadow-[0px_11px_20px_0px_rgba(0,0,0,0.30)] z-50',
+                    'data-[side=bottom]:animate-slipe-up-and-fade',
+                    'data-[side=top]:animate-slipe-down-and-fade',
+                    className
+                    )}>
             {children}
         </RdxDropdownMenu.Content>
       </RdxDropdownMenu.Portal>
@@ -45,7 +47,7 @@ function DropdownMenuItem({ children, className, onSelect } : DropdownMenuItemPr
     return (
      <RdxDropdownMenu.Item
       onSelect={onSelect}
-      className={cn('min-h-[48px] outline-none flex items-center p-4 text-sm text-gray-800 data-[highlighted]:bg-gray-50 rounded-2xl transition-colors cursor-pointer',
+      className={cn('min-h-[40px] outline-none flex items-center px-4 py-2 text-sm text-gray-800 data-[highlighted]:bg-gray-50 rounded-2xl transition-colors cursor-pointer',
       className)}>
         {children}
      </RdxDropdownMenu.Item>
