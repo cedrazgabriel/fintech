@@ -1,3 +1,5 @@
+import { Button } from "../../../../components/Button";
+import { ColorsDropdownInput } from "../../../../components/ColorsDropdown";
 import { Input } from "../../../../components/Input";
 import { InputCurrency } from "../../../../components/InputCurrency";
 import { Modal } from "../../../../components/Modal";
@@ -25,8 +27,27 @@ export function NewAccountModal() {
         <div className="mt-10 flex flex-col gap-4">
           <Input type="text" name="name" placeholder="Nome da conta" />
 
-          <Select />
+          <Select placeholder="Tipo"
+          options={[
+            {
+              value: 'CHECKING',
+              label: 'Conta corrente'
+            },
+            {
+              value: 'INVESTIMENT',
+              label: 'Investimentos'
+            },    
+            {
+              value: 'CASH',
+              label: 'Dinheiro'
+            },
+          ]}
+           />
+
+           <ColorsDropdownInput />
         </div>
+
+        <Button type="submit" className="w-full mt-6">Criar</Button>
       </form>
     </Modal>
   );
