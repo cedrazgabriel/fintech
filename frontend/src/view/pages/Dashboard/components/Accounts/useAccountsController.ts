@@ -1,24 +1,37 @@
-import { useState } from "react";
-import { useWindowWidth } from "../../../../../app/hooks/useWindowWidth";
-import { useDashboard } from "../DashboardContext/useDashboard";
+import { useMemo, useState } from 'react';
+import { useBankAccounts } from '../../../../../app/hooks/useBankAccounts';
+import { useWindowWidth } from '../../../../../app/hooks/useWindowsWidth';
+import { useDashboard } from '../DashboardContext/useDashboard';
 
-export function useAccountsController(){
-    const windowWidth = useWindowWidth();
-    const {areValuesVisible, toglleValuesVisibility,openNewAccountModal} = useDashboard()
-    
-    const [sliderState, setSliderState] = useState({
-        isBeginning: true,
-        isEnd: false,
-    })
+export function useAccountsController() {
+  const windowsWidth = useWindowWidth();
 
-    return {
-         sliderState,
-         isLoading: false,
-         accounts: [],
-         windowWidth,
-         areValuesVisible,
-         setSliderState,
-         toglleValuesVisibility,
-         openNewAccountModal,
-        }
+  const {
+    areValuesVisible,
+    toggleValueVisibility,
+    openNewAccountModal,
+  } = useDashboard();
+
+  const [sliderState, setSliderState] = useState({
+    isBeginning: true,
+    isEnd: false,
+  })
+
+  const { accounts, isFetching } = useBankAccounts();
+
+  const currentBalance = useMemo(() => {
+    return accounts.reduce((total, account) => total + account.currentBalance, 0)
+  }, [accounts]);
+
+  return {
+    sliderState,
+    setSliderState,
+    windowsWidth,
+    areValuesVisible,
+    toggleValueVisibility,
+    isLoading: isFetching,
+    accounts,
+    openNewAccountModal,
+    currentBalance,
+  }
 }

@@ -1,26 +1,77 @@
-import { useState } from "react";
-import { useDashboard } from "../DashboardContext/useDashboard";
+import { useEffect, useState } from 'react';
+import { TransactionsEntity } from '../../../../../app/entities/Transactions';
+import { useTransactions } from '../../../../../app/hooks/useTransactions';
+import { TransactionsFilters } from '../../../../../app/services/transactionsService/getAll';
+import { useDashboard } from '../DashboardContext/useDashboard';
 
-export function useTransactionsController(){
-    const {areValuesVisible} = useDashboard()
+export function useTransactionsController() {
+  const { areValuesVisible } = useDashboard();
 
-    const [isFiltersModalOpen, setIsFilterModalOpen] = useState(false)
+  const [isFiltersModalOpen, setIsFiltersModalOpen ] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen ] = useState(false);
+  const [transactionBeingEdited, setTransactionBeingEdited ] = useState<null | TransactionsEntity>(null);
 
-    function handleOpenFiltersModal(){
-        setIsFilterModalOpen(true)
+  const [filters, setFilters ] = useState<TransactionsFilters>({
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
+  });
+
+  const { transactions, isLoading, isInitialLoading, refetchTransactions } = useTransactions(filters);
+
+  useEffect(() => {
+    refetchTransactions()
+  }, [filters, refetchTransactions])
+
+  function handleChangeFilters<TFilter extends keyof TransactionsFilters>(filter: TFilter) {
+    return (value: TransactionsFilters[TFilter]) => {
+      if (value === filters[filter]) return;
+
+      setFilters(prevState => ({
+        ...prevState,
+        [filter]: value,
+      }))
     }
+  }
 
-    function handleCloseFiltersModal(){
-        setIsFilterModalOpen(false)
-    }
+  function handleOpenFiltersModal() {
+    setIsFiltersModalOpen(true)
+  }
 
-    return {
-        areValuesVisible,
-        isInitialLoading: false,
-        transactions: [],
-        isLoading: false,
-        handleOpenFiltersModal,
-        handleCloseFiltersModal,
-        isFiltersModalOpen
-    }
+  function handleCloseFiltersModal() {
+    setIsFiltersModalOpen(false)
+  }
+
+
+  function handleApplyFilters({ bankAccountId, year }: { bankAccountId: string | undefined; year: number }) {
+    handleChangeFilters('bankAccountId')(bankAccountId)
+    handleChangeFilters('year')(year)
+    setIsFiltersModalOpen(false)
+  }
+
+  function handleOpenEditModal(transaction: TransactionsEntity) {
+    setIsEditModalOpen(true)
+    setTransactionBeingEdited(transaction)
+  }
+
+  function handleCloseEditModal() {
+    setIsEditModalOpen(false)
+    setTransactionBeingEdited(null)
+  }
+
+  return {
+    areValuesVisible,
+    isInitialLoading,
+    isLoading,
+    transactions,
+    handleOpenFiltersModal,
+    handleCloseFiltersModal,
+    isFiltersModalOpen,
+    handleChangeFilters,
+    filters,
+    handleApplyFilters,
+    transactionBeingEdited,
+    isEditModalOpen,
+    handleOpenEditModal,
+    handleCloseEditModal,
+  };
 }

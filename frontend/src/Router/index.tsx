@@ -5,27 +5,23 @@ import { Login } from '../view/pages/Login';
 import { Register } from '../view/pages/Register';
 import { AuthGuard } from './AuthGuard';
 
-// Esse arquivo serve para direcionar as rotas da aplicação, validando as rotas privadas e rotas públicas
-export function Router(){
-   
-    return(
-        <BrowserRouter>
-        <Routes>
+export function Router() {
+  return (
+    <BrowserRouter>
+      <Routes>
 
-            <Route element={ <AuthGuard isPrivate={false} /> }>
-                <Route element={<AuthLayout/>}>
-                    <Route path="/login" element={<Login/>} />
-                    <Route path="/register" element={<Register/>} />
-                </Route>       
-            </Route>
+        <Route element={<AuthGuard isPrivate={false} />}>
+          <Route element={<AuthLayout />}>
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+          </Route>
+        </Route>
 
-           <Route element={ <AuthGuard isPrivate={true} /> }>
-            <Route path="/" element={<Dashboard/>} />
-            </Route>
-           
+        <Route element={<AuthGuard isPrivate />}>
 
-     </Routes>
-        </BrowserRouter>
-     
-    )
+          <Route path='/' element={<Dashboard />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
 }

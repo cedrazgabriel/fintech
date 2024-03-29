@@ -1,63 +1,70 @@
 import * as RdxDropdownMenu from '@radix-ui/react-dropdown-menu';
 import { cn } from '../../app/utils/cn';
 
-function DropdownMenuRoot({ children } : {children : React.ReactNode}){
- return (
+function DropdownMenuRoot({ children }: { children: React.ReactNode }) {
+  return (
     <RdxDropdownMenu.Root>
-        {children}
+      {children}
     </RdxDropdownMenu.Root>
- )
+  )
 }
 
-function DropdownMenuTrigger({ children } : {children : React.ReactNode}){
-    return (
-       <RdxDropdownMenu.Trigger className='outline-none' asChild>
-           {children}
-       </RdxDropdownMenu.Trigger>
-    )
+function DropdownMenuTrigger({ children }: { children: React.ReactNode }) {
+  return (
+    <RdxDropdownMenu.Trigger
+      asChild
+      className='outline-none'
+    >
+      {children}
+    </RdxDropdownMenu.Trigger>
+  )
 }
 
-interface DropdownMenuContentProps{
-    children: React.ReactNode
-    className?: string
+interface DropdownMenuContentProps {
+  children: React.ReactNode
+  className?: string
 }
 
-function DropdownMenuContent({ children, className } : DropdownMenuContentProps){
-    return (
-      <RdxDropdownMenu.Portal>
-        <RdxDropdownMenu.Content
+function DropdownMenuContent({ children, className }: DropdownMenuContentProps) {
+  return (
+    <RdxDropdownMenu.Portal>
+      <RdxDropdownMenu.Content
         className={cn(
-                    'rounded-2xl p-2 bg-white space-y-2 shadow-[0px_11px_20px_0px_rgba(0,0,0,0.30)] z-[99]',
-                    'data-[side=bottom]:animate-slipe-up-and-fade',
-                    'data-[side=top]:animate-slipe-down-and-fade',
-                    className
-                    )}>
-            {children}
-        </RdxDropdownMenu.Content>
-      </RdxDropdownMenu.Portal>
-    )
+          'z-[99] p-2 rounded-2xl bg-white space-y-2 shadow-[0px_11px_20px_0px_rgba(0,0,0,0.10)]',
+          'data-[side=bottom]:animate-slideDownAndFade',
+          'data-[side=top]:animate-slideUpAndFade',
+          className,
+        )}
+      >
+        {children}
+      </RdxDropdownMenu.Content>
+    </RdxDropdownMenu.Portal>
+  )
 }
 
-interface DropdownMenuItemProps{
-    children: React.ReactNode
-    className?: string
-    onSelect?(): void
+interface DropDownMenuItemProps {
+  children: React.ReactNode
+  className?: string
+  onSelect?(): void
 }
-function DropdownMenuItem({ children, className, onSelect } : DropdownMenuItemProps){
-    return (
-     <RdxDropdownMenu.Item
+
+function DropdownMenuItem({ children, className, onSelect }: DropDownMenuItemProps) {
+  return (
+    <RdxDropdownMenu.Item
       onSelect={onSelect}
-      className={cn('min-h-[40px] outline-none flex items-center px-4 py-2 text-sm text-gray-800 data-[highlighted]:bg-gray-50 rounded-2xl transition-colors cursor-pointer',
-      className)}>
-        {children}
-     </RdxDropdownMenu.Item>
-    )
+      className={cn(
+        'min-h-[40px] outline-none flex items-center py-2 px-4 text-sm text-gray-800 data-[highlighted]:bg-gray-50 rounded-2xl transition-colors cursor-pointer',
+        className,
+      )}
+    >
+      {children}
+    </RdxDropdownMenu.Item>
+  )
 }
 
 export const DropdownMenu = {
-    Root: DropdownMenuRoot,
-    Trigger: DropdownMenuTrigger,
-    Content: DropdownMenuContent,
-    Item: DropdownMenuItem,
+  Root: DropdownMenuRoot,
+  Trigger: DropdownMenuTrigger,
+  Content: DropdownMenuContent,
+  Item: DropdownMenuItem,
 }
-

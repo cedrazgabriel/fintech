@@ -1,25 +1,21 @@
-import axios from 'axios'
-import { localStorageKeys } from '../config/localStorageKeys'
-import { sleep } from '../utils/sleep'
+import axios from 'axios';
+import { localStorageKeys } from '../config/localStorageKeys';
 
 export const httpClient = axios.create({
-   baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_API_URL,
 })
 
-httpClient.interceptors.request.use( config => {
-   const acessTokenJWT = localStorage.getItem(localStorageKeys.ACESS_TOKEN_JWT)
+httpClient.interceptors.request.use(config => {
+  const accessToken = localStorage.getItem(localStorageKeys.ACCESS_TOKEN)
 
-   if (acessTokenJWT){
-      config.headers.Authorization = `Bearer ${acessTokenJWT}`
-   }
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`
+  }
 
-   return config
+  return config;
 })
 
 httpClient.interceptors.response.use(async data => {
-   await sleep(500)
-   return data
+  return data;
 })
-
-
 
