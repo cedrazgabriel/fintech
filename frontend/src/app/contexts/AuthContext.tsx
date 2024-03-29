@@ -32,6 +32,7 @@ export function AuthProvider({ children}: {children: React.ReactNode}) {
   });
 
   const signin = useCallback((accessToken: string) => {
+    console.log('Adicionando token ao localStorage')
     localStorage.setItem(localStorageKeys.ACCESS_TOKEN, accessToken);
 
     setSignedIn(true);
