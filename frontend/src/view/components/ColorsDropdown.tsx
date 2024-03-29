@@ -1,7 +1,7 @@
 import { ChevronDownIcon, CrossCircledIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { cn } from "../../app/utils/cn";
-import { DropdownMenu } from "./DropdownMenu";
+import { DropMenu } from "./DropMenu";
 import { ColorIcon } from "./icons/ColorIcon";
 
 interface ColorsDropdownInputProps {
@@ -39,8 +39,8 @@ export function ColorsDropdownInput({ className, error }: ColorsDropdownInputPro
     }
     return (
         <div>
-            <DropdownMenu.Root>
-                <DropdownMenu.Trigger>
+            <DropMenu.Root>
+                <DropMenu.Trigger>
                     <button className={cn(
                         "bg-white w-full rounded-lg border border-gray-500 px-3 h-[52px] text-gray-700 focus:border-gray-900 transition-alloutline-none text-left relative",
                         error && "border-red-900 focus:border-red-900",
@@ -58,20 +58,20 @@ export function ColorsDropdownInput({ className, error }: ColorsDropdownInputPro
                        )}
                       </div>
                     </button>
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content
+                </DropMenu.Trigger>
+                <DropMenu.Content
                 className="grid grid-cols-4"
                 >
                   {colors.map(color => (
-                     <DropdownMenu.Item
+                     <DropMenu.Item
                       key={color.color}
                       onSelect={() => handleSelect(color)}
                       >
                      <ColorIcon color={color.color} bg={color.bg} />
-                 </DropdownMenu.Item>
+                 </DropMenu.Item>
                   ))}
-                </DropdownMenu.Content>
-            </DropdownMenu.Root>
+                </DropMenu.Content>
+            </DropMenu.Root>
 
 
             {error && (

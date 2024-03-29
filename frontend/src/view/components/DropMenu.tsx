@@ -62,7 +62,7 @@ function DropdownMenuItem({ children, className, onSelect }: DropDownMenuItemPro
   )
 }
 
-export const DropdownMenu = {
+export const DropMenu = {
   Root: DropdownMenuRoot,
   Trigger: DropdownMenuTrigger,
   Content: DropdownMenuContent,

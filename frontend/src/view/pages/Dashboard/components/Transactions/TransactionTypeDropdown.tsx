@@ -1,5 +1,5 @@
 import { ChevronDownIcon } from '@radix-ui/react-icons';
-import { DropdownMenu } from '../../../../components/DropDownMenu';
+import { DropMenu } from '../../../../components/DropMenu';
 import { ExpensesIcon } from '../../../../components/icons/ExpensesIcon';
 import { IncomeIcon } from '../../../../components/icons/IncomeIcon';
 import { TransactionsIcon } from '../../../../components/icons/TransactionsIcon';
@@ -11,8 +11,8 @@ interface TransactionTypeDropDownProps {
 
 export function TransactionTypeDropDown({ onSelect, selectedType }: TransactionTypeDropDownProps) {
   return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger>
+    <DropMenu.Root>
+      <DropMenu.Trigger>
         <button className='flex items-center gap-2'>
           {selectedType === 'EXPENSE' && <ExpensesIcon />}
           {selectedType === 'INCOME' && <IncomeIcon />}
@@ -27,33 +27,33 @@ export function TransactionTypeDropDown({ onSelect, selectedType }: TransactionT
 
           <ChevronDownIcon className='text-gray-900' />
         </button>
-      </DropdownMenu.Trigger>
+      </DropMenu.Trigger>
 
-      <DropdownMenu.Content
+      <DropMenu.Content
         className='w-[278px]'
       >
-        <DropdownMenu.Item
+        <DropMenu.Item
           className='gap-2'
           onSelect={() => onSelect('INCOME')}
         >
           <IncomeIcon />
           Receitas
-        </DropdownMenu.Item>
-        <DropdownMenu.Item
+        </DropMenu.Item>
+        <DropMenu.Item
           className='gap-2'
           onSelect={() => onSelect('EXPENSE')}
         >
           <ExpensesIcon />
           Despesas
-        </DropdownMenu.Item>
-        <DropdownMenu.Item
+        </DropMenu.Item>
+        <DropMenu.Item
           className='gap-2'
           onSelect={() => onSelect(undefined)}
         >
           <TransactionsIcon />
           Transações
-        </DropdownMenu.Item>
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
+        </DropMenu.Item>
+      </DropMenu.Content>
+    </DropMenu.Root>
   )
 }

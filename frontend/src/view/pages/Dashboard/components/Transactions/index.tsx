@@ -11,8 +11,9 @@ import { EditTranasctionModal } from '../Modals/EditTranascitonModal';
 import { FiltersModal } from './FiltersModal';
 import { SliderNavigation } from './SliderNavigation';
 import { SliderOptions } from './SliderOptions';
-import { TransactionTypeDropDown } from './TransactionTypeDropDown';
+import { TransactionTypeDropDown } from './TransactionTypeDropdown';
 import { useTransactionsController } from './useTransactionsController';
+import { TransactionsEntity } from '../../../../../app/entities/Transactions';
 
 export function Transactions() {
 
@@ -110,7 +111,7 @@ export function Transactions() {
                   />
                 )}
 
-                {transactions.map(transaction => (
+                {transactions.map((transaction: TransactionsEntity) => (
                   <div
                     key={transaction.id}
                     className='bg-white p-4 rounded-2xl flex items-center justify-between gap-4'
